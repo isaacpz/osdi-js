@@ -1,12 +1,17 @@
-import { Address } from './address';
-import { Email } from './email';
-import { PhoneNumber } from './phoneNumber';
+import { Address } from "./address";
+import { Email } from "./email";
+import { PhoneNumber } from "./phoneNumber";
 
 export interface Person {
   /**
+   * A unique number to identify this person
+   */
+  id: number;
+
+  /**
    * A unique string array of identifiers in the format [system name]:[id].
    */
-  identifiers: string[];
+  identifiers?: string[];
 
   /**
    * The person’s first name.
@@ -16,12 +21,12 @@ export interface Person {
   /**
    * The person’s last name.
    */
-  family_name: string;
+  family_name?: string;
 
   /**
    * An additional name not included in family or given. Usually a middle name.
    */
-  additional_name: string; //probably middle name
+  additional_name?: string; //probably middle name
 
   /**
    * An array of postal address objects associated with the person.
@@ -37,5 +42,4 @@ export interface Person {
    * An array of phone number objects associated with the person.
    */
   phone_numbers: PhoneNumber[];
-
 }

@@ -18,6 +18,11 @@
     "typedoc": "^0.10.0"
   },
   "dependencies": {
-    "typescript": "^2.7.1"
+    "@types/chai-as-promised": "^7.1.0",
+    "@types/chai-things": "^0.0.32",
+    "chai-as-promised": "^7.1.1",
+    "chai-things": "^0.2.0",
+    "typescript": "^2.7.1",
+    "web-request": "^1.0.7"
   }
 }

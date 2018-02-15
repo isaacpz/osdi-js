@@ -1,7 +1,9 @@
 import { OsdiApiClient } from "./osdiApiClient";
-import { Person } from "..";
+import * as WebRequest from "web-request";
+import { Person } from "../models/person/person";
+import OsdiErrorCodes from "./OsdiErrorCodes";
 
-class GenericOsdiApi implements OsdiApiClient {
+export class GenericOsdiApi implements OsdiApiClient {
   readonly url: string;
   readonly apiToken: string;
 
@@ -10,8 +12,23 @@ class GenericOsdiApi implements OsdiApiClient {
     this.apiToken = apiToken;
   }
 
-  getPersonById(id: number): Person {
-    let p: Person;
-    throw new Error("Method not implemented.");
+  getPersonById(id: number): Promise<Person> {
+    return WebRequest.json(this.url + "/api/v1/people/" + id + "/", {
+      headers: {
+        "OSDI-API-Token": this.apiToken,
+        "Content-type": "application/hal+json"
+      },
+    }).then((response: any) => {
+      if (response["osdi:status"]) {
+        if (response["osdi:status"].status == 500) {
+          throw Error(response["osdi:status"].description);
+        } else if (OsdiErrorCodes[response["osdi:status"].status]) {
+          throw Error(OsdiErrorCodes[response["osdi:status"].status]);
+        } else {
+          throw Error(response["osdi:status"]);
+        }
+      }
+      return <Person>response;
+    });
   }
 }
